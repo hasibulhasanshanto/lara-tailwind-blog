@@ -65,6 +65,7 @@
     </div>
 
     <p class="w-25 w-4/5 m-auto text-center text-sm text-gray-100 pt-6">
-        Copyright 2017-<?= date('Y'); ?> &copy; Shantos-blackbox. All Rights Reserved.
+        Copyright 2015 - <?= date('Y'); ?> &copy; <a href="https://github.com/hasibulhasanshanto">Shantos Blackbox</a> .
+        All Rights Reserved.
     </p>
 </footer>
