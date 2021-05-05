@@ -14,31 +14,36 @@
     </div>
 </div>
 
+@foreach ($posts as $post)
 <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
     <div>
-        <img src="https://images.pexels.com/photos/3861961/pexels-photo-3861961.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            alt="cpver image" width="700">
+        <img src="{{ asset('/post_images/'.$post->post_image) }}" alt="{{ $post->title }}" width="700">
     </div>
     <div class="m-auto sm:m-auto text-left w-4/5 block">
         <h2 class="text-3xl font-extrabold text-gray-600 leading-8">
-            Struggling a better web developer?
+            {{ $post->title }}
         </h2>
 
         <p class="py-8 text-gray-500 text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit !
+            <span class="text-gray-500">
+                By <span class="font-bold italic text-gray-800">{{ $post->user->name }}</span>, Created on
+                {{ date('jS M Y', strtotime($post->updated_at)) }}
+            </span>
         </p>
 
         <P class="font-extrabold text-gray-600 text-l pb-9 leading-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque vel tempora, sequi tempore et
-            accusantium, explicabo expedita sit cupiditate repellat labore qui quidem cumque asperiores fugit ad, quod
-            natus dignissimos neque.
+            {{ Str::words($post->description, $limit = 60, $end = '...') }}
         </P>
 
-        <a href="/blog" class="uppercase bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-8 rounded-3xl">
+        <a href="/blog/{{ $post->slug }}"
+            class="uppercase bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-8 rounded-3xl">
             Find Out More
         </a>
     </div>
 </div>
+@endforeach
+
+
 <div class="text-center p-15 bg-black text-white">
     <h2 class="text-2xl pb-5 text-l">
         I'm in expert in .....
@@ -75,7 +80,8 @@
     </p>
 </div>
 
-<div class="sm:grid grid-cols-2 w-4/5 m-auto">
+@foreach ($latests as $latest)
+<div class="sm:grid grid-cols-2 w-4/5 m-auto pb-8">
     <div class="flex bg-yellow-700 text-gray-100 pt-10">
         <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block">
             <span class="uppercase text-xs">
@@ -83,20 +89,19 @@
             </span>
 
             <h3 class="text-xl font-bold py-10">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis nam, perspiciatis provident eius
-                nobis minima eaque sunt quidem consequuntur, incidunt saepe nihil velit! Eligendi fugit commodi in a
-                laudantium facilis.
+                {{ Str::words($latest->description, $limit = 35, $end = '...') }}
             </h3>
 
-            <a href="#"
+            <a href="/blog/{{ $latest->slug }}"
                 class="uppercase bg-transparent border-2 border-gray-100 text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
                 Find Out More
             </a>
         </div>
     </div>
     <div>
-        <img src="https://images.pexels.com/photos/3861961/pexels-photo-3861961.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            alt="cpver image" width="700">
+        <img src="{{ asset('/post_images/'.$latest->post_image) }}" alt="{{ $latest->title }}" width="700">
     </div>
 </div>
+@endforeach
+
 @endsection
