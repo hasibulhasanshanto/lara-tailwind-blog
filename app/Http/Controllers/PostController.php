@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -25,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('frontend.blog.create');
     }
 
     /**
@@ -36,7 +37,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'post_image' => 'required|mimes:jpg, jpeg, png|max:5048',
+        ]);
+
+        $slug = Str::slug($request->title);
+        $newImageName = uniqid() . '-' .  $slug . '.' . $request->post_image->getClientOriginalExtension();
+        $request->post_image->move(public_path('post_images'), $newImageName);
+
+        Post::create([
+            'title' => $request->title,
+            'slug' => $slug,
+            'description' => $request->description,
+            'post_image' => $newImageName,
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('blog.index')->with('message', 'Your post has been added!');
     }
 
     /**

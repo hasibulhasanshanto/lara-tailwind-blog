@@ -10,9 +10,17 @@
     </div>
 </div>
 
+@if (session()->has('message'))
+<div class="w-4/5 m-auto mt-10 pl-2">
+    <p class="w-3/6 mb-4 text-gray-50 bg-green-500 rounded-2xl py-4">
+        {{ session()->get('message') }}
+    </p>
+</div>
+@endif
+
 @if (Auth::check())
 <div class="pt-15 w-4/5 m-auto">
-    <a href="/blog/create/"
+    <a href="{{ route('blog.create') }}"
         class="bg-blue-500 uppercase bg-transparent text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
         Create Posts
     </a>
@@ -22,7 +30,7 @@
 @foreach ($posts as $post)
 <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b bg-gray-100">
     <div>
-        <img src="{{ $post->post_image }}" alt="cpver image" width="700">
+        <img src="{{ asset('/post_images/'.$post->post_image) }}" alt="{{ $post->title }}" width="700">
     </div>
 
     <div>
