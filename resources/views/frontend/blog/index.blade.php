@@ -30,7 +30,7 @@
 @foreach ($posts as $post)
 <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b bg-gray-100">
     <div>
-        <img src="{{ asset('/post_images/'.$post->post_image) }}" alt="{{ $post->title }}" width="700">
+        <img src="{{ asset('/storage/post_images/'.$post->post_image) }}" alt="{{ $post->title }}" width="700">
     </div>
 
     <div>

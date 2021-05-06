@@ -17,7 +17,7 @@
 @foreach ($posts as $post)
 <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
     <div>
-        <img src="{{ asset('/post_images/'.$post->post_image) }}" alt="{{ $post->title }}" width="700">
+        <img src="{{ asset('/storage/post_images/'.$post->post_image) }}" alt="{{ $post->title }}" width="700">
     </div>
     <div class="m-auto sm:m-auto text-left w-4/5 block">
         <h2 class="text-3xl font-extrabold text-gray-600 leading-8">
@@ -99,7 +99,7 @@
         </div>
     </div>
     <div>
-        <img src="{{ asset('/post_images/'.$latest->post_image) }}" alt="{{ $latest->title }}" width="700">
+        <img src="{{ asset('/storage/post_images/'.$latest->post_image) }}" alt="{{ $latest->title }}" width="700">
     </div>
 </div>
 @endforeach

@@ -46,7 +46,7 @@ class PostController extends Controller
 
         $slug = Str::slug($request->title);
         $newImageName = uniqid() . '-' .  $slug . '.' . $request->post_image->getClientOriginalExtension();
-        $request->post_image->move(public_path('post_images'), $newImageName);
+        $request->post_image->move(public_path('/storage/post_images/'), $newImageName);
 
         Post::create([
             'title' => $request->title,
@@ -103,10 +103,10 @@ class PostController extends Controller
         if ($request->hasFile('post_image')) {
 
             $newImageName = uniqid() . '-' .  $slug_title . '.' . $request->post_image->getClientOriginalExtension();
-            $request->post_image->move(public_path('post_images'), $newImageName);
+            $request->post_image->move(public_path('/storage/post_images/'), $newImageName);
 
-            if (File::exists(public_path('/post_images/') . $old->post_image)) {
-                unlink(public_path('/post_images/') . $old->post_image);
+            if ($old->post_image) {
+                unlink(public_path('/storage/post_images/') . $old->post_image);
             }
         } else {
             $newImageName = $old->post_image;

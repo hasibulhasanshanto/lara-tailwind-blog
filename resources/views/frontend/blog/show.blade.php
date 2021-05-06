@@ -13,7 +13,7 @@
 
 <div class="w-4/5 m-auto pt-20">
     <div class="w-full mb-5">
-        <img src="{{ asset('/post_images/'.$post->post_image) }}" alt="{{ $post->title }}">
+        <img src="{{ asset('/storage/post_images/'.$post->post_image) }}" alt="{{ $post->title }}">
     </div>
 
     <span class="text-gray-500">
