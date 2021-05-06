@@ -129,11 +129,19 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $post = Post::where('slug', $slug)->first();
+        if ($post->post_image) {
+            unlink(public_path('/storage/post_images/') . $post->post_image);
+        }
+        $post->delete();
+
+        if ($post) {
+            return redirect()->route('blog.index')->with('message', 'Your post has been Deleted!');
+        }
     }
 }
