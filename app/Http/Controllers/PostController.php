@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -61,35 +62,68 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $post = Post::where('slug', $slug)->first();
+        return view('frontend.blog.show', compact(['post']));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $post = Post::where('slug', $slug)->first();
+        return view('frontend.blog.edit', compact(['post']));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $old = Post::where('slug', $slug)->first();
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'post_image' => 'nullable|mimes:jpg, jpeg, png|max:5048',
+        ]);
+
+        $slug_title = Str::slug($request->title);
+        if ($request->hasFile('post_image')) {
+
+            $newImageName = uniqid() . '-' .  $slug_title . '.' . $request->post_image->getClientOriginalExtension();
+            $request->post_image->move(public_path('post_images'), $newImageName);
+
+            if (File::exists(public_path('/post_images/') . $old->post_image)) {
+                unlink(public_path('/post_images/') . $old->post_image);
+            }
+        } else {
+            $newImageName = $old->post_image;
+        }
+
+        $post = Post::where('slug', $slug)->update([
+            'title' => $request->title,
+            'slug' => $slug_title,
+            'description' => $request->description,
+            'post_image' => $newImageName,
+        ]);
+
+        if ($post) {
+            return redirect()->route('blog.index')->with('message', 'Your post has been Updated!');
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**

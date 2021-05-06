@@ -35,7 +35,7 @@
             {{ Str::words($post->description, $limit = 60, $end = '...') }}
         </P>
 
-        <a href="/blog/{{ $post->slug }}"
+        <a href="{{ route('blog.show', $post->slug) }}"
             class="uppercase bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-8 rounded-3xl">
             Find Out More
         </a>
@@ -92,7 +92,7 @@
                 {{ Str::words($latest->description, $limit = 35, $end = '...') }}
             </h3>
 
-            <a href="/blog/{{ $latest->slug }}"
+            <a href="{{ route('blog.show', $latest->slug) }}"
                 class="uppercase bg-transparent border-2 border-gray-100 text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
                 Find Out More
             </a>

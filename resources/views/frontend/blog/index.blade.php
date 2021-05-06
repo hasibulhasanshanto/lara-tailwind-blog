@@ -47,10 +47,19 @@
             {{ Str::words($post->description, $limit = 40, $end = '...') }}
         </p>
 
-        <a href="/blog/{{ $post->slug }}"
+        <a href="{{ route('blog.show', $post->slug) }}"
             class="uppercase bg-blue-500 text-gray-100 text-lg font-bold py-3 px-8 rounded-3xl">
             Keep reading
         </a>
+
+        @if (isset(Auth::user()->id) && (Auth::user()->id == $post->user_id))
+        <span class="float-right">
+            <a href="{{ route('blog.edit', $post->slug) }}"
+                class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+                Edit
+            </a>
+        </span>
+        @endif
     </div>
 </div>
 @endforeach
